@@ -15,8 +15,14 @@ class Matrix
     Matrix& operator*= (double a);
     Matrix& operator+ (const Matrix& m);
     Matrix& operator- (const Matrix& m);
-    bool operator== (const Matrix &mat) const;//neccasary for tests
-    bool operator!= (const Matrix &mat) const;//neccasary for tests
+
+    //comparison operators
+    bool operator== (const Matrix& mat) const;//neccasary for tests
+    bool operator!= (const Matrix& mat) const;//neccasary for tests
+    bool operator<(const Matrix& mat)const;
+    bool operator>(const Matrix& mat)const;
+    bool operator<=(const Matrix& mat)const;
+    bool operator>=(const Matrix& mat)const;
 
     private:
     int m_rows{};

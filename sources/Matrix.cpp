@@ -1,4 +1,6 @@
 #include "Matrix.hpp"
+#include <numeric>
+using std::accumulate;
 namespace zich
 {
 
@@ -73,6 +75,10 @@ Matrix& Matrix::operator- (const Matrix& mat)
     }
     return *this;
 }
+
+
+
+//Required comparison operators
 bool Matrix::operator== (const Matrix &mat) const
 {
         if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
@@ -85,17 +91,47 @@ bool Matrix::operator== (const Matrix &mat) const
     }
     return true;
 }
+
+//implementing != using operator !(operator ==)
 bool Matrix::operator!= (const Matrix &mat) const
+{
+    // if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    // throw "can't operate on 2 matrices, not the same dimensions";
+    //  for(int i=0;i<mat.vm.size();i++)
+    // {
+    //     if(vm.at(i)==mat.vm.at(i))
+    //     return false;
+    // }
+    // return true;   
+    return !(*this==mat);
+}
+
+bool Matrix:: operator<(const Matrix& mat)const
 {
     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
     throw "can't operate on 2 matrices, not the same dimensions";
-     for(int i=0;i<mat.vm.size();i++)
-    {
-        if(vm.at(i)==mat.vm.at(i))
-        return false;
-    }
-    return true;   
+
+    return accumulate(vm.begin(),vm.end(),0)<accumulate(vm.begin(),vm.end(),0);
 }
+
+//implementing > using operator < with parametrs flipped
+bool Matrix:: operator>(const Matrix& mat)const
+{
+    return mat<*this;
+}
+
+//this operator can be implemented as !(operator<)
+bool Matrix:: operator<=(const Matrix& mat)const
+{
+    return !(*this<mat);
+}
+
+//this operator can be implemented as !(operator>)
+bool Matrix:: operator >=(const Matrix& mat)const
+{
+    return !(*this>mat);
+}
+
 
 }
 
