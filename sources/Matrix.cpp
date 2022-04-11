@@ -2,6 +2,7 @@
 namespace zich
 {
 
+
 Matrix& Matrix::operator-()
 {
     for(auto i:vm)
@@ -53,7 +54,7 @@ Matrix& Matrix::operator*= (double a)
 Matrix& Matrix::operator+ (const Matrix& mat)
 {
     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-    throw "can't add 2 matrices, not the same dimensions";
+    throw "can't operate on 2 matrices, not the same dimensions";
 
     for(int i=0;i<mat.vm.size();i++)
     {
@@ -63,16 +64,39 @@ Matrix& Matrix::operator+ (const Matrix& mat)
 }
 Matrix& Matrix::operator- (const Matrix& mat)
 {
+   if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    throw "can't operate on 2 matrices, not the same dimensions";
+
+    for(int i=0;i<mat.vm.size();i++)
+    {
+        vm.at(i)-=mat.vm.at(i);
+    }
     return *this;
 }
 bool Matrix::operator== (const Matrix &mat) const
 {
-        return true;
+        if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    throw "can't operate on 2 matrices, not the same dimensions";
+
+    for(int i=0;i<mat.vm.size();i++)
+    {
+        if(vm.at(i)!=mat.vm.at(i))
+        return false;
+    }
+    return true;
 }
 bool Matrix::operator!= (const Matrix &mat) const
 {
+    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    throw "can't operate on 2 matrices, not the same dimensions";
+     for(int i=0;i<mat.vm.size();i++)
+    {
+        if(vm.at(i)==mat.vm.at(i))
         return false;
+    }
+    return true;   
 }
+
 }
 
 
