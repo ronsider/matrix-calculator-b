@@ -16,6 +16,18 @@ class Matrix
     Matrix& operator+ (const Matrix& m);
     Matrix& operator- (const Matrix& m);
 
+    //incerement and decrement operators for matrices
+
+    //prefix increment and decrement operators
+    Matrix& operator ++();
+    Matrix& operator --();
+
+    //using dummy variable for postfix operators
+    Matrix operator ++(int);
+    Matrix operator --(int);
+
+    /////////////////////////////////////////////////
+
     //comparison operators
     bool operator== (const Matrix& mat) const;//neccasary for tests
     bool operator!= (const Matrix& mat) const;//neccasary for tests
@@ -23,6 +35,7 @@ class Matrix
     bool operator>(const Matrix& mat)const;
     bool operator<=(const Matrix& mat)const;
     bool operator>=(const Matrix& mat)const;
+    ////////////////////////////////////////
 
     private:
     int m_rows{};

@@ -5,6 +5,48 @@ namespace zich
 {
 
 
+
+// incerement and decremt operator for matrices
+//prefix:
+Matrix& Matrix:: operator ++()
+{
+    for(auto i:vm)
+    {
+        ++i;
+    }
+    return *this;
+}
+
+Matrix& Matrix:: operator --()
+{
+    for(auto i:vm)
+    {
+        --i;
+    }
+    return *this;
+}
+
+//postfix:
+Matrix Matrix::operator++(int)
+{
+    for(auto i:vm)
+    {
+        i++;
+    }
+    return *this;
+
+}
+
+Matrix Matrix::operator--(int)
+{
+    for(auto i:vm)
+    {
+        i--;
+    }
+    return *this;
+
+}
+///////////////////////////////////////////////
 Matrix& Matrix::operator-()
 {
     for(auto i:vm)
