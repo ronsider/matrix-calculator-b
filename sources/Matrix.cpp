@@ -4,6 +4,16 @@ using std::accumulate;
 namespace zich
 {
 
+     double lahmadan(const vector<double>& v1, const vector<double>& v2)
+	{
+		double sum{};
+		for (int i = 0; i < v1.size(); i++)
+		{
+			sum += (v1[i] * v2[i]);
+		}
+		return sum;
+	}
+
 
 
 // incerement and decremt operator for matrices
@@ -34,7 +44,6 @@ Matrix Matrix::operator++(int)
         i++;
     }
     return *this;
-
 }
 
 Matrix Matrix::operator--(int)
@@ -44,7 +53,6 @@ Matrix Matrix::operator--(int)
         i--;
     }
     return *this;
-
 }
 ///////////////////////////////////////////////
 Matrix& Matrix::operator-()
@@ -55,6 +63,16 @@ Matrix& Matrix::operator-()
     }
     return *this;
 }
+
+Matrix& Matrix::operator+()
+{
+    // for(auto i:vm)
+    // {
+    //     i*=-1;
+    // }
+    return *this;
+}
+
 std::ostream &operator<<(std::ostream &os, const Matrix &m) 
 {
     for(int i=0;i<m.m_rows;i++)
@@ -68,6 +86,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
     }
     return os;
 }
+
 Matrix& Matrix::operator* (double num1)
 {
     for(auto i:vm)
@@ -76,6 +95,7 @@ Matrix& Matrix::operator* (double num1)
     }
     return *this;
 }
+
 Matrix operator*(double number, const Matrix &mat)
 {
     vector<double>t;
@@ -87,6 +107,7 @@ Matrix operator*(double number, const Matrix &mat)
     Matrix m{t,mat.m_rows,mat.m_columns};
     return m;
 }
+
 Matrix& Matrix::operator*= (double a)
 {
     for(auto i:this->vm)
@@ -95,6 +116,7 @@ Matrix& Matrix::operator*= (double a)
     }
     return *this;
 }
+
 Matrix& Matrix::operator+ (const Matrix& mat)
 {
     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
@@ -106,6 +128,7 @@ Matrix& Matrix::operator+ (const Matrix& mat)
     }
     return *this;
 }
+
 Matrix& Matrix::operator- (const Matrix& mat)
 {
    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
@@ -172,6 +195,58 @@ bool Matrix:: operator<=(const Matrix& mat)const
 bool Matrix:: operator >=(const Matrix& mat)const
 {
     return !(*this>mat);
+}
+
+
+//matrix multiplication
+Matrix operator *(const Matrix& m1,const Matrix& m2)
+{
+    if(m1.m_columns!=m2.m_rows)
+    throw "dimensions are not fit for matrix multiplication";
+
+    vector<vector<double>>v1(m1.m_rows, vector<double>(m1.m_columns));
+
+		int c{};
+		for (int i = 0; i < m1.m_rows; i++)
+		{
+			for (int j = 0; j < m1.m_columns; j++)
+			{
+
+				v1.at(i).at(j) = m1.vm.at(c);
+				c++;
+			}
+		}
+
+		vector<vector<double>>v2;
+		int col{ m2.m_columns };
+		int ro{ m2.m_rows };
+
+		for(int i=0;i<col;i++)
+		{
+			int pos{ i };
+			vector<double>temp{};
+			for(int j=0;j<ro;j++)
+			{
+				temp.push_back(m2.vm.at(pos));
+				pos += col;
+			}
+			v2.push_back(temp);
+		}
+		
+		vector<double>final_result{};
+		double sum{};
+		for (const auto& i : v1)
+		{
+			for (const auto& j : v2)
+			{
+				sum = lahmadan(i, j);
+				final_result.push_back(sum);
+				sum = 0;
+			}
+		}
+		//prt_mat(final_result);  
+        Matrix result(final_result,m1.m_rows,m2.m_columns); 
+        return result;
 }
 
 
