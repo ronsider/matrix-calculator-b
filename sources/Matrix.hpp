@@ -16,6 +16,8 @@ class Matrix
 
     ////// output stream of class matrix
     friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
+    friend std::istream& operator>>(std::istream& is,Matrix& m);
+
 
     //scalar multiplication(implemented as class memeber and at global section)
     Matrix& operator* (double number);
@@ -60,9 +62,10 @@ class Matrix
     //2) inner product for 2 vectors
     //3) repeat step 2 order of O(n^3)  times
 
-    ///////+= ,-= as function memebrs
+    ///////+= ,-=, *= as function memebrs
     Matrix& operator +=(const Matrix&);
     Matrix& operator -=(const Matrix&);
+    Matrix& operator *=(const Matrix&);
     ///////
 
     private:
