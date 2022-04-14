@@ -10,17 +10,17 @@ class Matrix
     Matrix(vector<double>v,int rows, int columns):vm{v},m_rows{rows},m_columns{columns}{}//constructor
 
     //unary opeator on single matrix
-    Matrix& operator -();
-    Matrix& operator +();
+    Matrix operator -();
+    Matrix operator +();
     ///////////////////
 
     ////// output stream of class matrix
     friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 
     //scalar multiplication(implemented as class memeber and at global section)
-    Matrix& operator* (double a);
-    friend Matrix operator*(double a, const Matrix &m);
-    Matrix& operator*= (double a);
+    Matrix& operator* (double number);
+    friend Matrix operator*(double number, const Matrix &m);
+    Matrix& operator*= (double number);
     /////////////////////////////
     
     

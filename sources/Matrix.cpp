@@ -55,22 +55,28 @@ Matrix Matrix::operator--(int)
     return *this;
 }
 ///////////////////////////////////////////////
-Matrix& Matrix::operator-()
+Matrix Matrix::operator-()
 {
+    vector<double>temp;
     for(auto i:vm)
     {
         i*=-1;
+        temp.push_back(i);
     }
-    return *this;
+    Matrix result(temp,m_rows,m_columns);
+    return result;
+    //return *this;
 }
 
-Matrix& Matrix::operator+()
+Matrix Matrix::operator+()
 {
     // for(auto i:vm)
     // {
     //     i*=-1;
     // }
-    return *this;
+    Matrix result(vm,m_rows,m_columns);
+    //return *this;
+    return result;
 }
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m) 
@@ -87,11 +93,11 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
     return os;
 }
 
-Matrix& Matrix::operator* (double num1)
+Matrix& Matrix::operator* (double number)
 {
-    for(auto i:vm)
+    for(auto& i:vm)
     {
-        i*=num1;
+        i*=number;
     }
     return *this;
 }
@@ -108,11 +114,11 @@ Matrix operator*(double number, const Matrix &mat)
     return m;
 }
 
-Matrix& Matrix::operator*= (double a)
+Matrix& Matrix::operator*= (double number)
 {
-    for(auto i:this->vm)
+    for(auto& i:vm)
     {
-        i*=a;
+        i*=number;
     }
     return *this;
 }
@@ -120,7 +126,9 @@ Matrix& Matrix::operator*= (double a)
 Matrix& Matrix::operator+ (const Matrix& mat)
 {
     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    {
     throw "can't operate on 2 matrices, not the same dimensions";
+    }
 
     for(int i=0;i<mat.vm.size();i++)
     {
@@ -132,7 +140,9 @@ Matrix& Matrix::operator+ (const Matrix& mat)
 Matrix& Matrix::operator- (const Matrix& mat)
 {
    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+   {
     throw "can't operate on 2 matrices, not the same dimensions";
+   }
 
     for(int i=0;i<mat.vm.size();i++)
     {
@@ -147,12 +157,16 @@ Matrix& Matrix::operator- (const Matrix& mat)
 bool Matrix::operator== (const Matrix &mat) const
 {
         if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+        {
     throw "can't operate on 2 matrices, not the same dimensions";
+        }
 
     for(int i=0;i<mat.vm.size();i++)
     {
         if(vm.at(i)!=mat.vm.at(i))
+        {
         return false;
+        }
     }
     return true;
 }
@@ -174,9 +188,11 @@ bool Matrix::operator!= (const Matrix &mat) const
 bool Matrix:: operator<(const Matrix& mat)const
 {
     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    {
     throw "can't operate on 2 matrices, not the same dimensions";
+    }
 
-    return accumulate(vm.begin(),vm.end(),0)<accumulate(vm.begin(),vm.end(),0);
+    return accumulate(vm.begin(),vm.end(),0.0)<accumulate(vm.begin(),vm.end(),0.0);
 }
 
 //implementing > using operator < with parametrs flipped
@@ -202,7 +218,9 @@ bool Matrix:: operator >=(const Matrix& mat)const
 Matrix operator *(const Matrix& m1,const Matrix& m2)
 {
     if(m1.m_columns!=m2.m_rows)
+    {
     throw "dimensions are not fit for matrix multiplication";
+    }
 
     vector<vector<double>>v1(m1.m_rows, vector<double>(m1.m_columns));
 
@@ -241,7 +259,7 @@ Matrix operator *(const Matrix& m1,const Matrix& m2)
 			{
 				sum = lahmadan(i, j);
 				final_result.push_back(sum);
-				sum = 0;
+				//sum = 0;
 			}
 		}
 		//prt_mat(final_result);  
