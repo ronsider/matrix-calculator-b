@@ -60,6 +60,11 @@ class Matrix
     //2) inner product for 2 vectors
     //3) repeat step 2 order of O(n^3)  times
 
+    ///////+= ,-= as function memebrs
+    Matrix& operator +=(const Matrix&);
+    Matrix& operator -=(const Matrix&);
+    ///////
+
     private:
     int m_rows{};
     int m_columns{};

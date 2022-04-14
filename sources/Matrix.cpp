@@ -267,6 +267,32 @@ Matrix operator *(const Matrix& m1,const Matrix& m2)
         return result;
 }
 
+Matrix& Matrix::operator+=(const Matrix& m)
+{
+    if(m_columns!=m.m_columns || m_rows!=m.m_rows)
+    {
+    throw "can't operate on 2 matrices, not the same dimensions";
+    }
+    for(int i=0;i<vm.size();i++)
+    {
+        vm.at(i)+=m.vm.at(i);
+    }
+    return *this;
+}
+
+Matrix& Matrix::operator-=(const Matrix& m)
+{
+    if(m_columns!=m.m_columns || m_rows!=m.m_rows)
+    {
+    throw "can't operate on 2 matrices, not the same dimensions";
+    }
+    for(int i=0;i<vm.size();i++)
+    {
+        vm.at(i)-=m.vm.at(i);
+    }
+    return *this;
+}
+
 
 }
 
