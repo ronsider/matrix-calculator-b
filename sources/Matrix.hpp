@@ -7,7 +7,14 @@ namespace zich
 class Matrix
 {
     public:
-    Matrix(vector<double>v,int rows, int columns):vm{v},m_rows{rows},m_columns{columns}{}//constructor
+    //constructor
+    Matrix(vector<double>v,int rows, int columns):vm{v},m_rows{rows},m_columns{columns}
+    {
+        if(rows*columns!=v.size()||rows<=0||columns<=0)
+        {
+            throw "parametrs do not fit for matrix constructions";
+        }
+    }
 
     //unary opeator on single matrix
     Matrix operator -();
@@ -40,19 +47,28 @@ class Matrix
     /////////////////////////////////////////////////
 
     //comparison operators
-    bool operator== (const Matrix& mat) const;//neccasary for tests
+    //bool operator== (const Matrix& mat) const;//neccasary for tests
     bool operator!= (const Matrix& mat) const;//neccasary for tests
-    bool operator<(const Matrix& mat)const;
-    bool operator>(const Matrix& mat)const;
-    bool operator<=(const Matrix& mat)const;
-    bool operator>=(const Matrix& mat)const;
+    //bool operator<(const Matrix& mat)const;
+
+    friend bool operator <(const Matrix& ,const Matrix&);
+    //bool operator>(const Matrix& mat)const;
+    friend bool operator >(const Matrix& ,const Matrix&);
+    //bool operator<=(const Matrix& mat)const;
+    friend bool operator <=(const Matrix&,const Matrix&);
+    //bool operator>=(const Matrix& mat)const;
+    friend bool operator >=(const Matrix&,const Matrix&);
     ////////////////////////////////////////
+
+    //functions neccedary for tests to work
+    friend bool operator ==(const Matrix&,const Matrix&);
 
     //arithmetic functional operators on 2 matrices(implemented at global scope and as class member):
     // return later friend Matrix operator +(const Matrix&,const Matrix&);
+    friend Matrix operator +(const Matrix&,const Matrix&);
     //return later friend Matrix operator -(const Matrix&,const Matrix&);
 
-    Matrix& operator+ (const Matrix& m);
+   // Matrix& operator+ (const Matrix& m);
     Matrix& operator- (const Matrix& m);
     /////////////////////////////////////
 
@@ -67,6 +83,9 @@ class Matrix
     Matrix& operator -=(const Matrix&);
     Matrix& operator *=(const Matrix&);
     ///////
+
+    //+= ,-=, *= as friend memebrs that pass value
+    friend Matrix operator *=(const Matrix&,const Matrix&);
 
     private:
     int m_rows{};

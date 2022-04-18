@@ -16,11 +16,34 @@ namespace zich
 
 
 
+//*= as friend function
+Matrix operator *=(const Matrix& m1,const Matrix& m2)
+{
+    Matrix result=m1*m2;
+    return result;
+}
+
+bool operator == (const Matrix& m1,const Matrix& m2)
+{
+    if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
+    {
+        throw "parameters do not fit the criteria";
+    }
+    for(size_t i=0;i<m1.vm.size();i++)
+    {
+        if(m1.vm.at(i)!=m2.vm.at(i))
+        {
+        return false;
+        }
+    }
+    return true;
+}
+
 // incerement and decremt operator for matrices
 //prefix:
 Matrix& Matrix:: operator ++()
 {
-    for(auto i:vm)
+    for(auto& i:vm)
     {
         ++i;
     }
@@ -29,7 +52,7 @@ Matrix& Matrix:: operator ++()
 
 Matrix& Matrix:: operator --()
 {
-    for(auto i:vm)
+    for(auto& i:vm)
     {
         --i;
     }
@@ -37,22 +60,18 @@ Matrix& Matrix:: operator --()
 }
 
 //postfix:
-Matrix Matrix::operator++(int)
+Matrix Matrix::operator ++(int)
 {
-    for(auto i:vm)
-    {
-        i++;
-    }
-    return *this;
+     Matrix temp{*this};
+        ++(*this);
+        return temp;
 }
 
 Matrix Matrix::operator--(int)
 {
-    for(auto i:vm)
-    {
-        i--;
-    }
-    return *this;
+    Matrix temp{*this};
+        --(*this);
+        return temp;
 }
 ///////////////////////////////////////////////
 Matrix Matrix::operator-()
@@ -116,6 +135,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
 Matrix& Matrix::operator* (double number)
 {
+    
     for(auto& i:vm)
     {
         i*=number;
@@ -146,18 +166,35 @@ Matrix& Matrix::operator*= (double number)
     return *this;
 }
 
-Matrix& Matrix::operator+ (const Matrix& mat)
+// Matrix& Matrix::operator+ (const Matrix& mat)
+// {
+//     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+//     {
+//     throw "can't operate on 2 matrices, not the same dimensions";
+//     }
+
+//     for(size_t i=0;i<mat.vm.size();i++)
+//     {
+//         vm.at(i)+=mat.vm.at(i);
+//     }
+//     return *this;
+// }
+
+Matrix operator +(const Matrix& m1,const Matrix& m2)
 {
-    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+    if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
     {
     throw "can't operate on 2 matrices, not the same dimensions";
     }
+    vector<double>result{};
+        for(size_t i=0;i<m1.vm.size();i++)
+        {
+       // m1.vm.at(i)+=mat.vm.at(i);
+       double temp{m1.vm.at(i)+m2.vm.at(i)};
+       result.push_back(temp);
+        }
+    return Matrix(result,m1.m_rows,m1.m_columns);
 
-    for(size_t i=0;i<mat.vm.size();i++)
-    {
-        vm.at(i)+=mat.vm.at(i);
-    }
-    return *this;
 }
 
 Matrix& Matrix::operator- (const Matrix& mat)
@@ -177,22 +214,22 @@ Matrix& Matrix::operator- (const Matrix& mat)
 
 
 //Required comparison operators
-bool Matrix::operator== (const Matrix &mat) const
-{
-        if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-        {
-    throw "can't operate on 2 matrices, not the same dimensions";
-        }
+// bool Matrix::operator== (const Matrix &mat) const
+// {
+//         if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+//         {
+//     throw "can't operate on 2 matrices, not the same dimensions";
+//         }
 
-    for(size_t i=0;i<mat.vm.size();i++)
-    {
-        if(vm.at(i)!=mat.vm.at(i))
-        {
-        return false;
-        }
-    }
-    return true;
-}
+//     for(size_t i=0;i<mat.vm.size();i++)
+//     {
+//         if(vm.at(i)!=mat.vm.at(i))
+//         {
+//         return false;
+//         }
+//     }
+//     return true;
+// }
 
 //implementing != using operator !(operator ==)
 bool Matrix::operator!= (const Matrix &mat) const
@@ -208,32 +245,53 @@ bool Matrix::operator!= (const Matrix &mat) const
     return !(*this==mat);
 }
 
-bool Matrix:: operator<(const Matrix& mat)const
+// bool Matrix:: operator<(const Matrix& mat)const
+// {
+//     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+//     {
+//     throw "can't operate on 2 matrices, not the same dimensions";
+//     }
+
+//     return accumulate(vm.begin(),vm.end(),0.0)<accumulate(vm.begin(),vm.end(),0.0);
+// }
+bool operator <(const Matrix& m1,const Matrix& m2)
 {
-    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+        if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
     {
     throw "can't operate on 2 matrices, not the same dimensions";
     }
+    return accumulate(m1.vm.begin(),m1.vm.end(),0.0)<accumulate(m2.vm.begin(),m2.vm.end(),0.0);
 
-    return accumulate(vm.begin(),vm.end(),0.0)<accumulate(vm.begin(),vm.end(),0.0);
 }
 
 //implementing > using operator < with parametrs flipped
-bool Matrix:: operator>(const Matrix& mat)const
+// bool Matrix:: operator>(const Matrix& mat)const
+// {
+//     return mat<*this;
+// }
+bool operator >(const Matrix& m1,const Matrix& m2)
 {
-    return mat<*this;
+    return m2<m1;
 }
 
 //this operator can be implemented as !(operator<)
-bool Matrix:: operator<=(const Matrix& mat)const
+// bool Matrix:: operator<=(const Matrix& mat)const
+// {
+//     return !(*this<mat);
+// }
+bool operator <=(const Matrix& m1,const Matrix& m2)
 {
-    return !(*this<mat);
+    return !(m1>m2);
 }
 
 //this operator can be implemented as !(operator>)
-bool Matrix:: operator >=(const Matrix& mat)const
+// bool Matrix:: operator >=(const Matrix& mat)const
+// {
+//     return !(*this>mat);
+// }
+bool operator >=(const Matrix& m1,const Matrix& m2)
 {
-    return !(*this>mat);
+    return !(m1<m2);
 }
 
 
