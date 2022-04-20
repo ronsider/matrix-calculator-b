@@ -17,11 +17,11 @@ namespace zich
 
 
 //*= as friend function
-Matrix operator *=(const Matrix& m1,const Matrix& m2)
-{
-    Matrix result=m1*m2;
-    return result;
-}
+// Matrix operator *=(const Matrix& m1,const Matrix& m2)
+// {
+//     Matrix result=m1*m2;
+//     return result;
+// }
 
 bool operator == (const Matrix& m1,const Matrix& m2)
 {
@@ -133,14 +133,24 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
  }
 
-Matrix& Matrix::operator* (double number)
-{
+// Matrix& Matrix::operator* (double number)
+// {
     
-    for(auto& i:vm)
+//     for(auto& i:vm)
+//     {
+//         i*=number;
+//     }
+//     return *this;
+// }
+
+Matrix operator *(const Matrix& m1,double num)
+{
+    vector<double>temp{m1.vm};
+    for(auto& i:temp)
     {
-        i*=number;
+        i*=num;
     }
-    return *this;
+    return Matrix(temp,m1.m_rows,m1.m_columns);
 }
 
 Matrix operator*(double number, const Matrix &mat)
@@ -197,18 +207,35 @@ Matrix operator +(const Matrix& m1,const Matrix& m2)
 
 }
 
-Matrix& Matrix::operator- (const Matrix& mat)
-{
-   if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-   {
-    throw "can't operate on 2 matrices, not the same dimensions";
-   }
+// Matrix& Matrix::operator- (const Matrix& mat)
+// {
+//    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+//    {
+//     throw "can't operate on 2 matrices, not the same dimensions";
+//    }
 
-    for(size_t i=0;i<mat.vm.size();i++)
+//     for(size_t i=0;i<mat.vm.size();i++)
+//     {
+//         vm.at(i)-=mat.vm.at(i);
+//     }
+//     return *this;
+// }
+
+Matrix operator -(const Matrix& m1,const Matrix& m2)
+{
+    if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
     {
-        vm.at(i)-=mat.vm.at(i);
+    throw "can't operate on 2 matrices, not the same dimensions";
     }
-    return *this;
+    vector<double>result{};
+        for(size_t i=0;i<m1.vm.size();i++)
+        {
+       // m1.vm.at(i)+=mat.vm.at(i);
+       double temp{m1.vm.at(i)-m2.vm.at(i)};
+       result.push_back(temp);
+        }
+    return Matrix(result,m1.m_rows,m1.m_columns);
+
 }
 
 
@@ -232,17 +259,24 @@ Matrix& Matrix::operator- (const Matrix& mat)
 // }
 
 //implementing != using operator !(operator ==)
-bool Matrix::operator!= (const Matrix &mat) const
+// bool Matrix::operator!= (const Matrix &mat) const
+// {
+//     // if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
+//     // throw "can't operate on 2 matrices, not the same dimensions";
+//     //  for(int i=0;i<mat.vm.size();i++)
+//     // {
+//     //     if(vm.at(i)==mat.vm.at(i))
+//     //     return false;
+//     // }
+//     // return true;   
+//     return !(*this==mat);
+// }
+
+bool operator !=(const Matrix& m1,const Matrix& m2)
 {
-    // if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-    // throw "can't operate on 2 matrices, not the same dimensions";
-    //  for(int i=0;i<mat.vm.size();i++)
-    // {
-    //     if(vm.at(i)==mat.vm.at(i))
-    //     return false;
-    // }
-    // return true;   
-    return !(*this==mat);
+     if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
+      throw "can't operate on 2 matrices, not the same dimensions";
+      return !(m1==m2);
 }
 
 // bool Matrix:: operator<(const Matrix& mat)const
@@ -387,8 +421,8 @@ Matrix& Matrix::operator *=(const Matrix& m)
 
     //vector<vector<double>>v1(m_rows, vector<double>(m_columns));
     //vector<vector<double>>v1(m1.m_rows, vector<double>(m1.m_columns));
-    size_t k1{static_cast<unsigned long>(m.m_rows)};
-    size_t k2{static_cast<unsigned long>(m.m_columns)};
+    size_t k1{static_cast<unsigned long>(m_rows)};
+    size_t k2{static_cast<unsigned long>(m_columns)};
     vector<vector<double>>v1(k1, vector<double>(k2));
 
 		//int c{};

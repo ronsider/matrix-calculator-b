@@ -27,8 +27,10 @@ class Matrix
 
 
     //scalar multiplication(implemented as class memeber and at global section)
-    Matrix& operator* (double number);
+    //Matrix& operator* (double number);
+    friend Matrix operator *(const Matrix&,double);
     friend Matrix operator*(double number, const Matrix &m);
+    friend Matrix operator*( const Matrix&,double);
     Matrix& operator*= (double number);
     /////////////////////////////
     
@@ -48,7 +50,7 @@ class Matrix
 
     //comparison operators
     //bool operator== (const Matrix& mat) const;//neccasary for tests
-    bool operator!= (const Matrix& mat) const;//neccasary for tests
+    //bool operator!= (const Matrix& mat) const;//neccasary for tests
     //bool operator<(const Matrix& mat)const;
 
     friend bool operator <(const Matrix& ,const Matrix&);
@@ -62,14 +64,16 @@ class Matrix
 
     //functions neccedary for tests to work
     friend bool operator ==(const Matrix&,const Matrix&);
+    friend bool operator !=(const Matrix&,const Matrix&);
 
     //arithmetic functional operators on 2 matrices(implemented at global scope and as class member):
     // return later friend Matrix operator +(const Matrix&,const Matrix&);
     friend Matrix operator +(const Matrix&,const Matrix&);
+    friend Matrix operator -(const Matrix&,const Matrix&);
     //return later friend Matrix operator -(const Matrix&,const Matrix&);
 
    // Matrix& operator+ (const Matrix& m);
-    Matrix& operator- (const Matrix& m);
+    //Matrix& operator- (const Matrix& m);
     /////////////////////////////////////
 
     friend Matrix operator *(const Matrix&,const Matrix&);//matrix multiplication. see steps down below:
@@ -85,7 +89,7 @@ class Matrix
     ///////
 
     //+= ,-=, *= as friend memebrs that pass value
-    friend Matrix operator *=(const Matrix&,const Matrix&);
+    //friend Matrix operator *=(const Matrix&,const Matrix&);
 
     private:
     int m_rows{};
