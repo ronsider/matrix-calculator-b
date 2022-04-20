@@ -100,15 +100,48 @@ Matrix Matrix::operator+()
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m) 
 {
+    // for(size_t i=0;i<m.m_rows;i++)
+    // {
+    //     os<<'[';
+    //     for(size_t j=0;j<m.m_columns;j++)
+    //     {
+    //        os<<' '<<m.vm.at(j); 
+    //     }
+    //     os<<"]\n";
+    // }
+    // return os;
+    size_t c{};
     for(size_t i=0;i<m.m_rows;i++)
     {
         os<<'[';
         for(size_t j=0;j<m.m_columns;j++)
         {
-           os<<' '<<m.vm.at(j); 
+            if(j!=m.m_columns-1)
+            {
+           os<<m.vm.at(c)<<' ';
+            }
+            else
+            {
+                os<<m.vm.at(c);
+            }
+           c++;          
         }
-        os<<"]\n";
+        if(c==m.vm.size()-1)
+        {
+            continue;
+        }
+        if(i!=m.m_rows-1)
+        {
+            os<<"]\n";
+        }
+
+        else
+        {
+            os<<']';
+        }
+        
     }
+    
     return os;
 }
 
