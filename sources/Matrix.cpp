@@ -175,7 +175,8 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
 
 
-        if(s=="[1 1 1 1], [1 1 1 1], [1 1 1 1]"){
+        if(s == "[1 1 1 1], [1 1 1 1], [1 1 1 1]")
+        {
             return is;
         }
         size_t rowSize=result[0].length();
