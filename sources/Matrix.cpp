@@ -15,14 +15,6 @@ namespace zich
 	}
 
 
-
-//*= as friend function
-// Matrix operator *=(const Matrix& m1,const Matrix& m2)
-// {
-//     Matrix result=m1*m2;
-//     return result;
-// }
-
 bool operator == (const Matrix& m1,const Matrix& m2)
 {
     if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
@@ -84,32 +76,17 @@ Matrix Matrix::operator-()
     }
     Matrix result(temp,m_rows,m_columns);
     return result;
-    //return *this;
 }
 
 Matrix Matrix::operator+()
 {
-    // for(auto i:vm)
-    // {
-    //     i*=-1;
-    // }
     Matrix result(vm,m_rows,m_columns);
-    //return *this;
     return result;
 }
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m) 
 {
-    // for(size_t i=0;i<m.m_rows;i++)
-    // {
-    //     os<<'[';
-    //     for(size_t j=0;j<m.m_columns;j++)
-    //     {
-    //        os<<' '<<m.vm.at(j); 
-    //     }
-    //     os<<"]\n";
-    // }
-    // return os;
+    
     size_t c{};
     for(size_t i=0;i<m.m_rows;i++)
     {
@@ -148,11 +125,6 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
  std::istream& operator>>(std::istream& is,Matrix& m)
  {
 
-    //   std::string s;
-    //     std::getline(is,s);
-    //     vector<std::string> words= split(s,",");
-    //     int count=0;
-    //     vector<double> base;
     std::string s;
     std::getline(is,s);
 
@@ -174,9 +146,6 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
      vector<std::string>result{split(s, " ")};               
 
-
-
-
         if(s == "[1 1 1 1], [1 1 1 1], [1 1 1 1]")
         {
             return is;
@@ -196,18 +165,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
         
 
         return is;
-
  }
-
-// Matrix& Matrix::operator* (double number)
-// {
-    
-//     for(auto& i:vm)
-//     {
-//         i*=number;
-//     }
-//     return *this;
-// }
 
 Matrix operator *(const Matrix& m1,double num)
 {
@@ -222,7 +180,6 @@ Matrix operator *(const Matrix& m1,double num)
 Matrix operator*(double number, const Matrix &mat)
 {
     vector<double>t;
-    //t.resize(mat.m_rows*mat.m_columns);
     size_t k{static_cast<unsigned long>(mat.m_rows*mat.m_columns)};
     t.resize(k);
     for(size_t i=0;i<mat.vm.size();i++)
@@ -242,19 +199,6 @@ Matrix& Matrix::operator*= (double number)
     return *this;
 }
 
-// Matrix& Matrix::operator+ (const Matrix& mat)
-// {
-//     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-//     {
-//     throw "can't operate on 2 matrices, not the same dimensions";
-//     }
-
-//     for(size_t i=0;i<mat.vm.size();i++)
-//     {
-//         vm.at(i)+=mat.vm.at(i);
-//     }
-//     return *this;
-// }
 
 Matrix operator +(const Matrix& m1,const Matrix& m2)
 {
@@ -273,19 +217,6 @@ Matrix operator +(const Matrix& m1,const Matrix& m2)
 
 }
 
-// Matrix& Matrix::operator- (const Matrix& mat)
-// {
-//    if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-//    {
-//     throw "can't operate on 2 matrices, not the same dimensions";
-//    }
-
-//     for(size_t i=0;i<mat.vm.size();i++)
-//     {
-//         vm.at(i)-=mat.vm.at(i);
-//     }
-//     return *this;
-// }
 
 Matrix operator -(const Matrix& m1,const Matrix& m2)
 {
@@ -306,38 +237,6 @@ Matrix operator -(const Matrix& m1,const Matrix& m2)
 
 
 
-//Required comparison operators
-// bool Matrix::operator== (const Matrix &mat) const
-// {
-//         if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-//         {
-//     throw "can't operate on 2 matrices, not the same dimensions";
-//         }
-
-//     for(size_t i=0;i<mat.vm.size();i++)
-//     {
-//         if(vm.at(i)!=mat.vm.at(i))
-//         {
-//         return false;
-//         }
-//     }
-//     return true;
-// }
-
-//implementing != using operator !(operator ==)
-// bool Matrix::operator!= (const Matrix &mat) const
-// {
-//     // if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-//     // throw "can't operate on 2 matrices, not the same dimensions";
-//     //  for(int i=0;i<mat.vm.size();i++)
-//     // {
-//     //     if(vm.at(i)==mat.vm.at(i))
-//     //     return false;
-//     // }
-//     // return true;   
-//     return !(*this==mat);
-// }
-
 bool operator !=(const Matrix& m1,const Matrix& m2)
 {
      if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
@@ -347,15 +246,7 @@ bool operator !=(const Matrix& m1,const Matrix& m2)
       return !(m1==m2);
 }
 
-// bool Matrix:: operator<(const Matrix& mat)const
-// {
-//     if(m_columns!=mat.m_columns || m_rows!=mat.m_rows)
-//     {
-//     throw "can't operate on 2 matrices, not the same dimensions";
-//     }
 
-//     return accumulate(vm.begin(),vm.end(),0.0)<accumulate(vm.begin(),vm.end(),0.0);
-// }
 bool operator <(const Matrix& m1,const Matrix& m2)
 {
         if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
@@ -366,31 +257,19 @@ bool operator <(const Matrix& m1,const Matrix& m2)
 
 }
 
-//implementing > using operator < with parametrs flipped
-// bool Matrix:: operator>(const Matrix& mat)const
-// {
-//     return mat<*this;
-// }
+
 bool operator >(const Matrix& m1,const Matrix& m2)
 {
     return m2<m1;
 }
 
-//this operator can be implemented as !(operator<)
-// bool Matrix:: operator<=(const Matrix& mat)const
-// {
-//     return !(*this<mat);
-// }
+
 bool operator <=(const Matrix& m1,const Matrix& m2)
 {
     return !(m1>m2);
 }
 
-//this operator can be implemented as !(operator>)
-// bool Matrix:: operator >=(const Matrix& mat)const
-// {
-//     return !(*this>mat);
-// }
+
 bool operator >=(const Matrix& m1,const Matrix& m2)
 {
     return !(m1<m2);
@@ -405,7 +284,6 @@ Matrix operator *(const Matrix& m1,const Matrix& m2)
     throw "dimensions are not fit for matrix multiplication";
     }
 
-    //vector<vector<double>>v1(m1.m_rows, vector<double>(m1.m_columns));
     size_t k1{static_cast<unsigned long>(m1.m_rows)};
     size_t k2{static_cast<unsigned long>(m1.m_columns)};
     vector<vector<double>>v1(k1, vector<double>(k2));
@@ -426,13 +304,11 @@ Matrix operator *(const Matrix& m1,const Matrix& m2)
 
 		for(size_t i=0;i<col;i++)
 		{
-			//int pos{ static_cast<int>(i) };
             size_t pos{i};
 			vector<double>temp{};
 			for(size_t j=0;j<ro;j++)
 			{
 				temp.push_back(m2.vm.at(pos));
-				//pos += col;
                 pos+=static_cast<unsigned long>(col);
 			}
 			v2.push_back(temp);
@@ -446,10 +322,8 @@ Matrix operator *(const Matrix& m1,const Matrix& m2)
 			{
 				sum = lahmadan(i, j);
 				final_result.push_back(sum);
-				//sum = 0;
 			}
 		}
-		//prt_mat(final_result);  
         Matrix result(final_result,m1.m_rows,m2.m_columns); 
         return result;
 }
@@ -487,13 +361,10 @@ Matrix& Matrix::operator *=(const Matrix& m)
     throw "dimensions are not fit for matrix multiplication";
     }
 
-    //vector<vector<double>>v1(m_rows, vector<double>(m_columns));
-    //vector<vector<double>>v1(m1.m_rows, vector<double>(m1.m_columns));
     size_t k1{static_cast<unsigned long>(m_rows)};
     size_t k2{static_cast<unsigned long>(m_columns)};
     vector<vector<double>>v1(k1, vector<double>(k2));
 
-		//int c{};
         size_t c{};
 		for (size_t i = 0; i <m_rows; i++)
 		{
@@ -511,19 +382,16 @@ Matrix& Matrix::operator *=(const Matrix& m)
 
 		for(size_t i=0;i<col;i++)
 		{
-			//int pos{ static_cast<int>(i) };
             size_t pos{i};
 			vector<double>temp{};
 			for(size_t j=0;j<ro;j++)
 			{
 				temp.push_back(m.vm.at(pos));
-				//pos += col;
                  pos+=static_cast<unsigned long>(col);
 			}
 			v2.push_back(temp);
 		}
 		
-		//vector<double>final_result{};
 		double sum{};
         vm.clear();
 		for (const auto& i : v1)
@@ -531,16 +399,11 @@ Matrix& Matrix::operator *=(const Matrix& m)
 			for (const auto& j : v2)
 			{
 				sum = lahmadan(i, j);
-				//final_result.push_back(sum);
                 vm.push_back(sum);
 				//sum = 0;
 			}
 		}
-		//prt_mat(final_result);  
-        //Matrix result(final_result,m_rows,m.m_columns); 
-        //return result;
         return *this;
-
 }
 
 }
