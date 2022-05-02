@@ -8,7 +8,7 @@ class Matrix
 {
     public:
     //constructor
-    Matrix(vector<double>v,int rows, int columns):vm{v},m_rows{rows},m_columns{columns}
+    Matrix(const vector<double>& v,int rows, int columns):vm{v},m_rows{rows},m_columns{columns}
     {
         if(rows*columns!=v.size()||rows<=0||columns<=0)
         {

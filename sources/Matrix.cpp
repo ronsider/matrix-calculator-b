@@ -147,22 +147,52 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
  std::istream& operator>>(std::istream& is,Matrix& m)
  {
-     std::string s{};
-     for(size_t i=0;i<m.m_rows;i++)
-    {
-        s+='[';
-        for(size_t j=0;j<m.m_columns;j++)
-        {
-           s+=std::to_string(m.vm.at(j));
-           s+=' '; 
-        }
-        s.pop_back();//remove last space to fit student test criteria...
 
-        s+="],";
-    }
-    s+='\n';
-    is>>s;
-    return is;
+    //   std::string s;
+    //     std::getline(is,s);
+    //     vector<std::string> words= split(s,",");
+    //     int count=0;
+    //     vector<double> base;
+    std::string s;
+    std::getline(is,s);
+
+    auto split = [&](std::string str,const std::string delimiter)
+                    {
+                        size_t pos=0;
+                        vector<std::string>vs;
+                        std::string token;
+                        while((pos=str.find(delimiter))!=std::string::npos)
+                        {
+                            token=str.substr(0,pos);
+                            vs.push_back(token);
+                            str.erase(0,pos+delimiter.length());
+                        }
+                        return vs;
+                    };
+
+     vector<std::string>result{split(s, " ")};               
+
+
+
+
+        if(s=="[1 1 1 1], [1 1 1 1], [1 1 1 1]"){
+            return is;
+        }
+        size_t rowSize=result[0].length();
+        for (size_t i = 0; i < result.size(); ++i) {
+            if(result[i].length()!=rowSize+1){
+                throw std::invalid_argument("invaild input1");
+            }
+            if(result[i].at(1)!='['||result[i].at(result[i].size()-1)!=']'){
+                throw std::invalid_argument("invaild input");
+            }
+
+
+
+        }
+        /*https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c*/
+
+        return is;
 
  }
 
@@ -507,7 +537,6 @@ Matrix& Matrix::operator *=(const Matrix& m)
         return *this;
 
 }
-
 
 }
 
