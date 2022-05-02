@@ -156,7 +156,9 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
     std::string s;
     std::getline(is,s);
 
-    auto split = [&](std::string str,const std::string delimiter)
+
+    /*https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c*/
+    auto split = [&](std::string str,const std::string& delimiter)
                     {
                         size_t pos=0;
                         vector<std::string>vs;
@@ -191,7 +193,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
 
         }
-        /*https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c*/
+        
 
         return is;
 
@@ -339,7 +341,9 @@ Matrix operator -(const Matrix& m1,const Matrix& m2)
 bool operator !=(const Matrix& m1,const Matrix& m2)
 {
      if(m1.m_columns!=m2.m_columns || m1.m_rows!=m2.m_rows)
+     {
       throw "can't operate on 2 matrices, not the same dimensions";
+     }
       return !(m1==m2);
 }
 
